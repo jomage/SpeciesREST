@@ -20,6 +20,10 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
+    public void getNull() {
+        return;
+    }
+
     public Person create(@Valid Person personToCreate) {
         return this.personRepository.save(personToCreate);
     }

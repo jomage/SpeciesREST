@@ -22,6 +22,19 @@ public class PersonController {
         return "Personnes administrées.";
     }
 
+    /**
+     * A pour but de lancer une exception (test de l'aspect)
+     */
+    @GetMapping("/savenull")
+    public void bidon() {
+        this.personService.create(null);
+    }
+
+    @GetMapping("/gettest")
+    public void bidon2() {
+        this.personService.getNull();
+    }
+
     @GetMapping
     public Page<Person> findAll(Pageable pageable) {
         return this.personService.findAll(pageable);
