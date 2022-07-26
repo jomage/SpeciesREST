@@ -18,9 +18,6 @@ public class SecurityConfig {
     @Autowired
     private RestAuthenticationEntryPoint authEntryPoint;
 
-    @Autowired
-    BCrypt crypt;
-
     /**
      * Morceau de code qui va intercepter les requêtes HTTP et les fait passer
      * à travers un "filtre".
@@ -39,26 +36,6 @@ public class SecurityConfig {
             .httpBasic().authenticationEntryPoint(authEntryPoint);
 
         return http.build();
-    }
-
-    /**
-     * Ce morceau de code ajoute 2 utilisateurs en mémoire (user et admin)
-     * Ce sont des utilisateurs au sens "Security" (des infos de connexion et des
-     * droits / roles)
-     *
-     * Cette solution "in memory" est bien sûr non adaptée aux cas réels.
-     */
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withUsername("user")
-                .password(crypt.encode("user"))
-                .roles("USER")
-                .build();
-        UserDetails userAdmin = User.withUsername("admin")
-                .password(crypt.encode("admin"))
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user, userAdmin);
     }
 
     /**
