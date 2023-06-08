@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.iocean.speciesrest.enums.Sex;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -14,24 +14,36 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 50)
-    @NotEmpty
+    @Column(length = 50, nullable = false)
+    @NotBlank
     private String name;
 
     @Column(length = 50)
-    @NotEmpty
     private String color;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Species species;
 
     @ManyToMany(mappedBy = "animals")
     @JsonIgnore
     Set<Person> persons;
+
+    // Lifecycle / Utility / Helpers
+
+    /**
+     * Permet de retirer automatiquement des personnes concernée l'animal qui est supprimé.
+     */
+    @PreRemove
+    private void removeAnimalFromPersons() {
+        for (Person person: this.persons) {
+            person.getAnimals().remove(this);
+        }
+    }
 
     // Getters / setters
 

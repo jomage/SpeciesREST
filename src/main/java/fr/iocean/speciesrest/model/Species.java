@@ -1,8 +1,8 @@
 package fr.iocean.speciesrest.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Species {
@@ -10,12 +10,14 @@ public class Species {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 50)
-    @NotEmpty
+    @Column(length = 50, nullable = false)
+    @NotBlank
+    @Size(max = 50)
     private String commonName;
 
-    @Column(length = 200)
-    @NotEmpty
+    @Column(length = 200, nullable = false)
+    @NotBlank
+    @Size(max = 200)
     private String latinName;
 
     // Getters / setters

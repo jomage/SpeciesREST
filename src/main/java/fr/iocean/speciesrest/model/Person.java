@@ -1,9 +1,10 @@
 package fr.iocean.speciesrest.model;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -12,13 +13,13 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 50)
-    @NotEmpty
+    @Column(length = 50, nullable = false)
+    @NotBlank
     @Size(max = 50)
     private String firstname;
 
-    @Column(length = 50)
-    @NotEmpty
+    @Column(length = 50, nullable = false)
+    @NotBlank
     @Size(max = 50)
     private String lastname;
 
@@ -26,7 +27,11 @@ public class Person {
     @Min(0)
     private Integer age;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(
+            // décommenter le cascade si on veut pouvoir supprimer une personne et la relation dans person_animals
+            // cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     @JoinTable(
             name = "person_animals",
             joinColumns = {@JoinColumn(name = "person_id")},

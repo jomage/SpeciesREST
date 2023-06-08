@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Integer>, fr.iocean.species.repository.PersonRepositoryCustom {
+public interface PersonRepository extends JpaRepository<Person, Integer>, PersonRepositoryCustom {
     /**
      * Retourne les personnes ayant pour nom le premier paramètre fourni ou
      * ayant pour prénom le second paramètre fourni
